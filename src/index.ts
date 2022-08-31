@@ -1,5 +1,4 @@
 import { Config } from "./config";
-
 import { uniq } from "lodash-es";
 
 export class CheckPWD {
@@ -9,6 +8,41 @@ export class CheckPWD {
     this.config = config;
   }
 
+  public checkAll(password:string){
+    const errList = [];
+    if(!this.checkPasswordLength(password)){
+        errList.push("PASSWORD_LENGTH_ERR")
+    }
+    if(!this.checkContainDigit(password)){
+        errList.push("NOT_CONTAIN_DIGIT")
+    }
+    if(!this.checkContainCase(password)){
+        errList.push("NOT_CONTAIN_CASE")
+    }
+    if(!this.checkContainLowerCase(password)){
+        errList.push("NOT_CONTAIN_LOWER_CASE")
+    }
+    if(!this.checkContainUpperCase(password)){
+        errList.push("NOT_CONTAIN_UPPER_CASE")
+    }
+    if(!this.checkContainSpecialChar(password)){
+        errList.push("NOT_CONTAIN_SPECIAL_CHAR")
+    }
+    if(!this.checkLateralKeyboardSite(password)){
+        errList.push("HAS_KEYBOARD_LATERAL")
+    }
+    if(!this.checkKeyboardSlantSite(password)){
+        errList.push("HAS_KEYBOARD_SLANT")
+    }
+    if(!this.checkSequentialChars(password)){
+        errList.push("HAS_SEQUENTIAL_CHAR")
+    }
+    if(!this.checkSequentialSameChars(password)){
+        errList.push("HAS_SEQUENTIAL_SAME_CHAR")
+    }
+    return errList;
+  }
+
   /**
    * 检测 密码中字符长度
    *
@@ -16,7 +50,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkPasswordLength(password: string): boolean {
+  private checkPasswordLength(password: string): boolean {
     if (!this.config.CHECK_PASSWORD_LENGTH) {
       return true;
     } else {
@@ -37,7 +71,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkContainDigit(password: string): boolean {
+  private checkContainDigit(password: string): boolean {
     if (!this.config.CHECK_CONTAIN_DIGIT) {
       return true;
     } else {
@@ -52,7 +86,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkContainCase(password: string): boolean {
+  private checkContainCase(password: string): boolean {
     return /[a-z,A-Z]/.test(password);
   }
 
@@ -63,7 +97,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkContainLowerCase(password: string): boolean {
+  private checkContainLowerCase(password: string): boolean {
     if (!this.config.CHECK_LOWER_CASE) {
       return true;
     }
@@ -77,7 +111,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkContainUpperCase(password: string): boolean {
+  private checkContainUpperCase(password: string): boolean {
     if (!this.config.CHECK_UPPER_CASE) {
       return true;
     }
@@ -91,7 +125,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkContainSpecialChar(password: string): boolean {
+  private checkContainSpecialChar(password: string): boolean {
     if (!this.config.CHECK_CONTAIN_SPECIAL_CHAR) {
       return true;
     }
@@ -109,7 +143,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkLateralKeyboardSite(password: string): boolean {
+  private checkLateralKeyboardSite(password: string): boolean {
     if (!this.config.CHECK_HORIZONTAL_KEY_SEQUENTIAL) {
       return true;
     }
@@ -130,7 +164,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkKeyboardSlantSite(password: string): boolean {
+  private checkKeyboardSlantSite(password: string): boolean {
     if (!this.config.CHECK_SLOPE_KEY_SEQUENTIAL) {
       return true;
     }
@@ -151,7 +185,7 @@ export class CheckPWD {
    * @return {*}  {boolean}
    * @memberof CheckPWD
    */
-  public checkSequentialChars(password: string): boolean {
+  private checkSequentialChars(password: string): boolean {
     if (!this.config.CHECK_LOGIC_SEQUENTIAL) {
       return true;
     }
@@ -165,7 +199,15 @@ export class CheckPWD {
     return arrList.find((str) => lower.includes(str)) === undefined;
   }
 
-  public checkSequentialSameChars(password: string): boolean {
+  /**
+   * 评估aaaa,1111这样的相同连续字符
+   *
+   * @private
+   * @param {string} password 密码字符串
+   * @return {*}  {boolean}
+   * @memberof CheckPWD
+   */
+  private checkSequentialSameChars(password: string): boolean {
     if (!this.config.CHECK_SEQUENTIAL_CHAR_SAME) {
       return true;
     }
