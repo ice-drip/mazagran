@@ -1,4 +1,4 @@
-export class Config {
+export class MazagranConfig {
   /**
    * 密码口令检测对应系统等级
    */

@@ -1,10 +1,10 @@
-import { Config } from "./config";
-import { uniq } from "lodash-es";
+import { MazagranConfig } from "./config";
+import { uniq } from "lodash";
 
-export class CheckPWD {
-  private config: Config;
+class Mazagran {
+  private config: MazagranConfig;
 
-  constructor(config: Config) {
+  constructor(config: MazagranConfig) {
     this.config = config;
   }
 
@@ -150,11 +150,11 @@ export class CheckPWD {
     const maxLength = this.config.LIMIT_HORIZONTAL_NUM_KEY;
     const lower = password.toLowerCase();
     const arrList = uniq(
-      this.config.KEYBOARD_HORIZONTAL_ARR.flatMap((str) =>
+      this.config.KEYBOARD_HORIZONTAL_ARR.flatMap((str:string) =>
         this.createSplitArr(str, maxLength)
       )
     );
-    return arrList.find((str) => lower.includes(str)) === undefined;
+    return arrList.find((str:string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -175,7 +175,7 @@ export class CheckPWD {
         this.createSplitArr(str, maxLength)
       )
     );
-    return arrList.find((str) => lower.includes(str)) === undefined;
+    return arrList.find((str:string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -192,11 +192,11 @@ export class CheckPWD {
     const maxLength = this.config.LIMIT_LOGIC_NUM_CHAR;
     const lower = password.toLowerCase();
     const arrList = uniq(
-      this.config.KEYBOARD_LOGIC_ARR.flatMap((str) =>
+      this.config.KEYBOARD_LOGIC_ARR.flatMap((str:string) =>
         this.createSplitArr(str, maxLength)
       )
     );
-    return arrList.find((str) => lower.includes(str)) === undefined;
+    return arrList.find((str:string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -244,3 +244,5 @@ export class CheckPWD {
       .map((_, index) => str.substring(index, index + length));
   }
 }
+
+export {MazagranConfig,Mazagran}
