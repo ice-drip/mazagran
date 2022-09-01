@@ -4,6 +4,10 @@
     [ngClass]="{ 'score-less-40': process <= 40, 'score-less-80': process < 80 && process > 40, 'score-more-80': process >= 80 }"
     style="min-height: 375px"
   >
+    <div class="mb-2">
+      <mat-slide-toggle color="primary" [(ngModel)]="advanced">高级选项</mat-slide-toggle>
+      <div></div>
+    </div>
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>password</mat-label>
       <input matInput placeholder="password" [(ngModel)]="password" (ngModelChange)="handlePasswordChange()" />

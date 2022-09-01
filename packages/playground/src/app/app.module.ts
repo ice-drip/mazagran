@@ -9,9 +9,10 @@ import { FormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatButtonModule } from "@angular/material/button";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, FlexLayoutModule, MatInputModule, FormsModule, MatIconModule, MatProgressBarModule, MatButtonModule],
+  imports: [BrowserModule, MatSlideToggleModule, BrowserAnimationsModule, FlexLayoutModule, MatInputModule, FormsModule, MatIconModule, MatProgressBarModule, MatButtonModule],
   providers: [],
   bootstrap: [AppComponent]
 })
