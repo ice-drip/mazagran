@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm --filter @kaffee/mazagran build && pnpm --filter @mazagran/playground build"
+    "build": "pnpm --filter @kaffee/mazagran build && pnpm --filter @mazagran/playground build",
+    "test": "pnpm --filter @mazagran/test test"
   },
   "keywords": [],
   "author": "",

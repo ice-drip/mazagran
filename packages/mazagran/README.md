@@ -33,9 +33,17 @@ Install with pnpm
   pnpm add -D @kaffee/mazagran
 ```
 
+## Online Demo
+
+[Online Check Demo](https://mazagran.rikka.cc/)
+
 ## Usage/Examples
 
-
+### Base Usage
+```typescript
+  const mazagran = new Mazagran();
+  mazagran.checkAll("password") // return err dict
+```
 
 ## License
 

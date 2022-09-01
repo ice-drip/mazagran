@@ -1,7 +1,8 @@
 <div class="h-screen w-screen" style="background: #3f51b5" fxLayout="row" fxLayoutAlign="center center">
   <div class="w-96 bg-white p-4" style="min-height: 375px">
     <mat-form-field appearance="outline" class="w-full">
-      <input matInput placeholder="label" [(ngModel)]="password" (ngModelChange)="handlePasswordChange()" />
+      <mat-label>password</mat-label>
+      <input matInput placeholder="password" [(ngModel)]="password" (ngModelChange)="handlePasswordChange()" />
     </mat-form-field>
     <div>
       <mat-progress-bar mode="determinate" [value]="process"></mat-progress-bar>
