@@ -126,7 +126,7 @@ class Mazagran {
     if (!this.config.CHECK_PASSWORD_LENGTH) {
       return true;
     } else {
-      if (password.length > this.config.MIN_LENGTH && password.length < this.config.MAX_LENGTH) {
+      if (password.length >= this.config.MIN_LENGTH && password.length <= this.config.MAX_LENGTH) {
         return true;
       }
     }
