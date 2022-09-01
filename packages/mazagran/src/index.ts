@@ -287,7 +287,7 @@ class Mazagran {
     if (!this.config.CHECK_SEQUENTIAL_CHAR_SAME) {
       return true;
     }
-    const maxLength = this.config.LIMIT_NUM_SAME_CHAR;
+    const maxLength = this.config.LIMIT_NUM_SAME_CHAR - 1;
     const lower = password.toLowerCase().split("");
     let sameLength = 0;
     let nowChar = "";
