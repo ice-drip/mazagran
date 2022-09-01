@@ -1,17 +1,17 @@
 # @kaffee/mazagran
 
-强壮口令检验
+Enhance password strength
 
 ## Support
 
-* [x] 口令的长度和是否在指定字符集合内
-* [x] 口令字符逻辑相邻的能力，如aBc，abC等
-* [x] 口令字符键盘物理位置相邻的能力，包括横向和左右斜线方向的相邻，如qwer 1qaz 0okm等
-* [x] 口令是否出现在弱口令库中的能力
-* [x] 相邻单字符多次重复
-* [x] 口令应为英文字母(区分大小写)+数字+特殊字符三者的组合
-* [x] 口令最大最小长度
-* [x] 口令特殊字符集
+* [x] The length and whether the password is in the specified character set
+* [x] The ability of password characters to be logically adjacent, such as aBc, abC, etc.
+* [x] The ability to be adjacent to the physical position of the password character keyboard, including the adjacent horizontal and left and right slash directions, such as qwer 1qaz 0okm, etc.
+* [x] Ability to see if a password is present in a weak password pool
+* [x] Adjacent single character repeated multiple times
+* [x] The password should be a combination of English letters (case sensitive) + numbers + special characters
+* [x] Password maximum and minimum length
+* [x] Password special character set
 
 ## Installation
 
