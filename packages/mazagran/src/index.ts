@@ -1,5 +1,12 @@
 import { MazagranConfig } from "./config";
-import { uniq } from "lodash";
+function uniq(arr: Array<string>) {
+  return arr.reduce((pre: string[], cur: string) => {
+    if (!pre.includes(cur)) {
+      pre.push(cur);
+    }
+    return pre;
+  }, []);
+}
 
 type CheckType =
   | "PASSWORD_LENGTH"
