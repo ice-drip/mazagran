@@ -6,14 +6,18 @@
   "types": "dist/typings/index.d.ts",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/index.umd.js",
+  "sideEffects": false,
+  "repository": "ice-drip/mazagran",
   "scripts": {
     "build": "rollup -c",
     "prepublish": "pnpm build",
     "ipublish": "pnpm publish --no-git-checks --registry https://registry.npmjs.org/ --access public"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "password"
+  ],
+  "author": "Rikka",
+  "license": "GPLV3",
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",

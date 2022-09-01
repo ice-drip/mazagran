@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "build": "pnpm --filter @kaffee/mazagran build && pnpm --filter @mazagran/playground build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

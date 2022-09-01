@@ -208,7 +208,7 @@ class Mazagran {
     if (!this.config.CHECK_CONTAIN_SPECIAL_CHAR) {
       return true;
     }
-    return password.split("").find((char) => this.config.SPECIAL_CHAR.includes(char)) === undefined;
+    return password.split("").find((char) => this.config.SPECIAL_CHAR.includes(char)) !== undefined;
   }
 
   /**
@@ -295,7 +295,7 @@ class Mazagran {
         sameLength = 0;
       }
     });
-    return sameLength <= maxLength;
+    return sameLength < maxLength;
   }
 
   /**
@@ -315,3 +315,4 @@ class Mazagran {
 }
 
 export { MazagranConfig, Mazagran };
+export * from "./constant";
