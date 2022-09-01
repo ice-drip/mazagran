@@ -1,12 +1,8 @@
 export class MazagranConfig {
   /**
-   * 密码口令检测对应系统等级
-   */
-  public SYSTEM_GRADE: string = '3';
-  /**
    * 是否检测密码口令长度标识
    */
-  public CHECK_PASSWORD_LENGTH: boolean = true;
+  public CHECK_PASSWORD_LENGTH: boolean = false;
   /**
    * 密码最小长度，默认为8
    */
@@ -18,20 +14,24 @@ export class MazagranConfig {
   /**
    * 是否包含数字
    */
-  public CHECK_CONTAIN_DIGIT: boolean = true;
+  public CHECK_CONTAIN_DIGIT: boolean = false;
 
+  /**
+   * 是否包含字母
+   */
+  public CHECK_CASE:boolean = false;
   /**
    * 是否包含小写字母
    */
-  public CHECK_LOWER_CASE: boolean = true;
+  public CHECK_LOWER_CASE: boolean = false;
   /**
    * 是否包含大写字母
    */
-  public CHECK_UPPER_CASE: boolean = true;
+  public CHECK_UPPER_CASE: boolean = false;
   /**
    * 是否包含特殊符号
    */
-  public CHECK_CONTAIN_SPECIAL_CHAR: boolean = true;
+  public CHECK_CONTAIN_SPECIAL_CHAR: boolean = false;
   /**
    * 特殊符号集合
    */
@@ -40,7 +40,7 @@ export class MazagranConfig {
   /**
    * 是否检测键盘按键横向连续
    */
-  public CHECK_HORIZONTAL_KEY_SEQUENTIAL: boolean = true;
+  public CHECK_HORIZONTAL_KEY_SEQUENTIAL: boolean = false;
   /**
    * 键盘物理位置横向不允许最小的连续个数
    */
@@ -49,7 +49,7 @@ export class MazagranConfig {
   /**
    * 是否检测键盘按键斜向连续
    */
-  public CHECK_SLOPE_KEY_SEQUENTIAL: boolean = true;
+  public CHECK_SLOPE_KEY_SEQUENTIAL: boolean = false;
   /**
    * 键盘物理位置斜向不允许最小的连续个数
    */
@@ -58,12 +58,14 @@ export class MazagranConfig {
   /**
    * 是否检测逻辑位置连续
    */
-  public CHECK_LOGIC_SEQUENTIAL: boolean = true;
+  public CHECK_LOGIC_SEQUENTIAL: boolean = false;
   /**
    * 密码口令中字符在逻辑位置上不允许最小的连续个数
    */
   public LIMIT_LOGIC_NUM_CHAR: number = 3;
-
+  /**
+   * 密码中的逻辑字符
+   */
   public KEYBOARD_LOGIC_ARR:string[]=[
     "abcdefghijklmnopqrstuvwxyz",
     "zyxwvutsrqponmlkjihgfedcba",
@@ -75,7 +77,7 @@ export class MazagranConfig {
   /**
    * 是否检测连续字符相同
    */
-  public CHECK_SEQUENTIAL_CHAR_SAME: boolean = true;
+  public CHECK_SEQUENTIAL_CHAR_SAME: boolean = false;
   /**
    * 密码口令中相同字符不允许最小的连续个数
    */

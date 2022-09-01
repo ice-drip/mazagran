@@ -1,46 +1,118 @@
 import { MazagranConfig } from "./config";
 import { uniq } from "lodash";
 
+type CheckType =
+  | "PASSWORD_LENGTH"
+  | "CONTAIN_DIGIT"
+  | "CASE"
+  | "LOWER_CASE"
+  | "UPPER_CASE"
+  | "SPECIAL_CHAR"
+  | "HORIZONTAL_KEY_SEQUENTIAL"
+  | "SLOPE_KEY_SEQUENTIAL"
+  | "LOGIC_SEQUENTIAL"
+  | "SEQUENTIAL_CHAR_SAME";
+
 class Mazagran {
   private config: MazagranConfig;
+  private types: CheckType[];
 
-  constructor(config: MazagranConfig) {
-    this.config = config;
+  constructor(
+    types: CheckType[] = [
+      "PASSWORD_LENGTH",
+      "CONTAIN_DIGIT",
+      "CASE",
+      "LOWER_CASE",
+      "UPPER_CASE",
+      "SPECIAL_CHAR",
+      "HORIZONTAL_KEY_SEQUENTIAL",
+      "SLOPE_KEY_SEQUENTIAL",
+      "LOGIC_SEQUENTIAL",
+      "SEQUENTIAL_CHAR_SAME"
+    ],
+    override?: MazagranConfig
+  ) {
+    if (override) {
+      this.config = override;
+    } else {
+      this.config = new MazagranConfig();
+    }
+    this.types = types;
+    this.init();
   }
 
-  public checkAll(password:string){
-    const errList = [];
-    if(!this.checkPasswordLength(password)){
-        errList.push("PASSWORD_LENGTH_ERR")
+  private init() {
+    this.types.some((type) => {
+      switch (type) {
+        case "PASSWORD_LENGTH":
+          this.config.CHECK_PASSWORD_LENGTH = true;
+          break;
+        case "CONTAIN_DIGIT":
+          this.config.CHECK_CONTAIN_DIGIT = true;
+          break;
+        case "SPECIAL_CHAR":
+          this.config.CHECK_CONTAIN_SPECIAL_CHAR = true;
+          break;
+        case "HORIZONTAL_KEY_SEQUENTIAL":
+          this.config.CHECK_HORIZONTAL_KEY_SEQUENTIAL = true;
+          break;
+        case "LOGIC_SEQUENTIAL":
+          this.config.CHECK_LOGIC_SEQUENTIAL = true;
+          break;
+        case "LOWER_CASE":
+          this.config.CHECK_LOWER_CASE = true;
+          break;
+        case "SEQUENTIAL_CHAR_SAME":
+          this.config.CHECK_SEQUENTIAL_CHAR_SAME = true;
+          break;
+        case "SLOPE_KEY_SEQUENTIAL":
+          this.config.CHECK_SLOPE_KEY_SEQUENTIAL = true;
+          break;
+        case "UPPER_CASE":
+          this.config.CHECK_UPPER_CASE = true;
+          break;
+        case "CASE":
+          this.config.CHECK_CASE = true;
+          break;
+      }
+    });
+  }
+  private checkOne(
+    type: CheckType,
+    errEnum: string,
+    checkFunction: (password: string) => boolean,
+    typeSet: Set<CheckType>,
+    password: string,
+    errList: string[],
+    passList: string[]
+  ) {
+    if (typeSet.has(type)) {
+      if (!checkFunction(password)) {
+        errList.push(errEnum);
+      } else {
+        passList.push(errEnum);
+      }
     }
-    if(!this.checkContainDigit(password)){
-        errList.push("NOT_CONTAIN_DIGIT")
-    }
-    if(!this.checkContainCase(password)){
-        errList.push("NOT_CONTAIN_CASE")
-    }
-    if(!this.checkContainLowerCase(password)){
-        errList.push("NOT_CONTAIN_LOWER_CASE")
-    }
-    if(!this.checkContainUpperCase(password)){
-        errList.push("NOT_CONTAIN_UPPER_CASE")
-    }
-    if(!this.checkContainSpecialChar(password)){
-        errList.push("NOT_CONTAIN_SPECIAL_CHAR")
-    }
-    if(!this.checkLateralKeyboardSite(password)){
-        errList.push("HAS_KEYBOARD_LATERAL")
-    }
-    if(!this.checkKeyboardSlantSite(password)){
-        errList.push("HAS_KEYBOARD_SLANT")
-    }
-    if(!this.checkSequentialChars(password)){
-        errList.push("HAS_SEQUENTIAL_CHAR")
-    }
-    if(!this.checkSequentialSameChars(password)){
-        errList.push("HAS_SEQUENTIAL_SAME_CHAR")
-    }
-    return errList;
+  }
+  public checkAll(password: string) {
+    const errList: string[] = [];
+    const passList: string[] = [];
+    const typeSet = new Set(this.types);
+    this.checkOne("PASSWORD_LENGTH", "PASSWORD_LENGTH_ERR", (pass) => this.checkPasswordLength(pass), typeSet, password, errList, passList);
+    this.checkOne("CONTAIN_DIGIT", "NOT_CONTAIN_DIGIT", (pass) => this.checkContainDigit(pass), typeSet, password, errList, passList);
+    this.checkOne("CASE", "NOT_CONTAIN_CASE", (pass) => this.checkContainCase(pass), typeSet, password, errList, passList);
+    this.checkOne("LOWER_CASE", "NOT_CONTAIN_LOWER_CASE", (pass) => this.checkContainLowerCase(pass), typeSet, password, errList, passList);
+    this.checkOne("UPPER_CASE", "NOT_CONTAIN_UPPER_CASE", (pass) => this.checkContainUpperCase(pass), typeSet, password, errList, passList);
+    this.checkOne("SPECIAL_CHAR", "NOT_CONTAIN_SPECIAL_CHAR", (pass) => this.checkContainSpecialChar(pass), typeSet, password, errList, passList);
+    this.checkOne("HORIZONTAL_KEY_SEQUENTIAL", "HAS_KEYBOARD_LATERAL", (pass) => this.checkLateralKeyboardSite(pass), typeSet, password, errList, passList);
+    this.checkOne("SLOPE_KEY_SEQUENTIAL", "HAS_KEYBOARD_SLANT", (pass) => this.checkKeyboardSlantSite(pass), typeSet, password, errList, passList);
+    this.checkOne("LOGIC_SEQUENTIAL", "HAS_SEQUENTIAL_CHAR", (pass) => this.checkSequentialChars(pass), typeSet, password, errList, passList);
+    this.checkOne("SEQUENTIAL_CHAR_SAME", "HAS_SEQUENTIAL_SAME_CHAR", (pass) => this.checkSequentialSameChars(pass), typeSet, password, errList, passList);
+
+    return {
+      error: errList,
+      pass: passList
+    };
   }
 
   /**
@@ -54,10 +126,7 @@ class Mazagran {
     if (!this.config.CHECK_PASSWORD_LENGTH) {
       return true;
     } else {
-      if (
-        password.length > this.config.MIN_LENGTH &&
-        password.length < this.config.MAX_LENGTH
-      ) {
+      if (password.length > this.config.MIN_LENGTH && password.length < this.config.MAX_LENGTH) {
         return true;
       }
     }
@@ -129,11 +198,7 @@ class Mazagran {
     if (!this.config.CHECK_CONTAIN_SPECIAL_CHAR) {
       return true;
     }
-    return (
-      password
-        .split("")
-        .find((char) => this.config.SPECIAL_CHAR.includes(char)) === undefined
-    );
+    return password.split("").find((char) => this.config.SPECIAL_CHAR.includes(char)) === undefined;
   }
 
   /**
@@ -149,12 +214,8 @@ class Mazagran {
     }
     const maxLength = this.config.LIMIT_HORIZONTAL_NUM_KEY;
     const lower = password.toLowerCase();
-    const arrList = uniq(
-      this.config.KEYBOARD_HORIZONTAL_ARR.flatMap((str:string) =>
-        this.createSplitArr(str, maxLength)
-      )
-    );
-    return arrList.find((str:string) => lower.includes(str)) === undefined;
+    const arrList = uniq(this.config.KEYBOARD_HORIZONTAL_ARR.flatMap((str: string) => this.createSplitArr(str, maxLength)));
+    return arrList.find((str: string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -170,12 +231,8 @@ class Mazagran {
     }
     const maxLength = this.config.LIMIT_SLOPE_NUM_KEY;
     const lower = password.toLowerCase();
-    const arrList = uniq(
-      this.config.KEYBOARD_SLOPE_ARR.flatMap((str) =>
-        this.createSplitArr(str, maxLength)
-      )
-    );
-    return arrList.find((str:string) => lower.includes(str)) === undefined;
+    const arrList = uniq(this.config.KEYBOARD_SLOPE_ARR.flatMap((str) => this.createSplitArr(str, maxLength)));
+    return arrList.find((str: string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -191,12 +248,8 @@ class Mazagran {
     }
     const maxLength = this.config.LIMIT_LOGIC_NUM_CHAR;
     const lower = password.toLowerCase();
-    const arrList = uniq(
-      this.config.KEYBOARD_LOGIC_ARR.flatMap((str:string) =>
-        this.createSplitArr(str, maxLength)
-      )
-    );
-    return arrList.find((str:string) => lower.includes(str)) === undefined;
+    const arrList = uniq(this.config.KEYBOARD_LOGIC_ARR.flatMap((str: string) => this.createSplitArr(str, maxLength)));
+    return arrList.find((str: string) => lower.includes(str)) === undefined;
   }
 
   /**
@@ -226,7 +279,7 @@ class Mazagran {
         sameLength = 0;
       }
     });
-    return sameLength<=maxLength
+    return sameLength <= maxLength;
   }
 
   /**
@@ -245,4 +298,4 @@ class Mazagran {
   }
 }
 
-export {MazagranConfig,Mazagran}
+export { MazagranConfig, Mazagran };
