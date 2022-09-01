@@ -1,7 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 import dts from "rollup-plugin-dts";
 import { resolve } from "path";
-import { rmdirSync } from "fs";
+import { existsSync, rmdirSync } from "fs";
 import { execSync } from "child_process";
 const config = [
   {
@@ -41,7 +41,10 @@ function buildUtil() {
   return {
     name: "build-util",
     buildStart() {
-      rmdirSync(resolve(process.cwd(), "dist"), { recursive: true });
+      const dir = resolve(process.cwd(), "dist");
+      if (existsSync(dir)) {
+        rmdirSync(dir, { recursive: true });
+      }
     },
     closeBundle() {
       execSync("tsc --project tsconfig.type.json");
