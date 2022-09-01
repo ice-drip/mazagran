@@ -104,7 +104,7 @@ class Mazagran {
     this.checkOne("LOWER_CASE", "NOT_CONTAIN_LOWER_CASE", (pass) => this.checkContainLowerCase(pass), typeSet, password, errList, passList);
     this.checkOne("UPPER_CASE", "NOT_CONTAIN_UPPER_CASE", (pass) => this.checkContainUpperCase(pass), typeSet, password, errList, passList);
     this.checkOne("SPECIAL_CHAR", "NOT_CONTAIN_SPECIAL_CHAR", (pass) => this.checkContainSpecialChar(pass), typeSet, password, errList, passList);
-    this.checkOne("HORIZONTAL_KEY_SEQUENTIAL", "HAS_KEYBOARD_LATERAL", (pass) => this.checkLateralKeyboardSite(pass), typeSet, password, errList, passList);
+    this.checkOne("HORIZONTAL_KEY_SEQUENTIAL", "HAS_KEYBOARD_SEQUENTIAL", (pass) => this.checkLateralKeyboardSite(pass), typeSet, password, errList, passList);
     this.checkOne("SLOPE_KEY_SEQUENTIAL", "HAS_KEYBOARD_SLANT", (pass) => this.checkKeyboardSlantSite(pass), typeSet, password, errList, passList);
     this.checkOne("LOGIC_SEQUENTIAL", "HAS_SEQUENTIAL_CHAR", (pass) => this.checkSequentialChars(pass), typeSet, password, errList, passList);
     this.checkOne("SEQUENTIAL_CHAR_SAME", "HAS_SEQUENTIAL_SAME_CHAR", (pass) => this.checkSequentialSameChars(pass), typeSet, password, errList, passList);
@@ -214,8 +214,13 @@ class Mazagran {
     }
     const maxLength = this.config.LIMIT_HORIZONTAL_NUM_KEY;
     const lower = password.toLowerCase();
-    const arrList = uniq(this.config.KEYBOARD_HORIZONTAL_ARR.flatMap((str: string) => this.createSplitArr(str, maxLength)));
+    const filterArr = [...this.config.KEYBOARD_HORIZONTAL_ARR, ...this.config.KEYBOARD_HORIZONTAL_ARR.map(this.stringReverse)];
+    const arrList = uniq(filterArr.flatMap((str: string) => this.createSplitArr(str, maxLength)));
     return arrList.find((str: string) => lower.includes(str)) === undefined;
+  }
+
+  private stringReverse(str: string): string {
+    return str.split("").reverse().join("");
   }
 
   /**
