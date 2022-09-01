@@ -9,10 +9,20 @@ type CheckType =
   | "UPPER_CASE"
   | "SPECIAL_CHAR"
   | "HORIZONTAL_KEY_SEQUENTIAL"
-  | "SLOPE_KEY_SEQUENTIAL"
+  | "SLANT_KEY_SEQUENTIAL"
   | "LOGIC_SEQUENTIAL"
   | "SEQUENTIAL_CHAR_SAME";
-
+type ErrType =
+  | "PASSWORD_LENGTH_ERR"
+  | "NOT_CONTAIN_DIGIT"
+  | "NOT_CONTAIN_CASE"
+  | "NOT_CONTAIN_LOWER_CASE"
+  | "NOT_CONTAIN_UPPER_CASE"
+  | "NOT_CONTAIN_SPECIAL_CHAR"
+  | "HAS_KEYBOARD_SEQUENTIAL"
+  | "HAS_KEYBOARD_SLANT"
+  | "HAS_SEQUENTIAL_CHAR"
+  | "HAS_SEQUENTIAL_SAME_CHAR";
 class Mazagran {
   private config: MazagranConfig;
   private types: CheckType[];
@@ -26,7 +36,7 @@ class Mazagran {
       "UPPER_CASE",
       "SPECIAL_CHAR",
       "HORIZONTAL_KEY_SEQUENTIAL",
-      "SLOPE_KEY_SEQUENTIAL",
+      "SLANT_KEY_SEQUENTIAL",
       "LOGIC_SEQUENTIAL",
       "SEQUENTIAL_CHAR_SAME"
     ],
@@ -65,8 +75,8 @@ class Mazagran {
         case "SEQUENTIAL_CHAR_SAME":
           this.config.CHECK_SEQUENTIAL_CHAR_SAME = true;
           break;
-        case "SLOPE_KEY_SEQUENTIAL":
-          this.config.CHECK_SLOPE_KEY_SEQUENTIAL = true;
+        case "SLANT_KEY_SEQUENTIAL":
+          this.config.CHECK_SLANT_KEY_SEQUENTIAL = true;
           break;
         case "UPPER_CASE":
           this.config.CHECK_UPPER_CASE = true;
@@ -79,12 +89,12 @@ class Mazagran {
   }
   private checkOne(
     type: CheckType,
-    errEnum: string,
+    errEnum: ErrType,
     checkFunction: (password: string) => boolean,
     typeSet: Set<CheckType>,
     password: string,
-    errList: string[],
-    passList: string[]
+    errList: ErrType[],
+    passList: ErrType[]
   ) {
     if (typeSet.has(type)) {
       if (!checkFunction(password)) {
@@ -95,8 +105,8 @@ class Mazagran {
     }
   }
   public checkAll(password: string) {
-    const errList: string[] = [];
-    const passList: string[] = [];
+    const errList: ErrType[] = [];
+    const passList: ErrType[] = [];
     const typeSet = new Set(this.types);
     this.checkOne("PASSWORD_LENGTH", "PASSWORD_LENGTH_ERR", (pass) => this.checkPasswordLength(pass), typeSet, password, errList, passList);
     this.checkOne("CONTAIN_DIGIT", "NOT_CONTAIN_DIGIT", (pass) => this.checkContainDigit(pass), typeSet, password, errList, passList);
@@ -105,7 +115,7 @@ class Mazagran {
     this.checkOne("UPPER_CASE", "NOT_CONTAIN_UPPER_CASE", (pass) => this.checkContainUpperCase(pass), typeSet, password, errList, passList);
     this.checkOne("SPECIAL_CHAR", "NOT_CONTAIN_SPECIAL_CHAR", (pass) => this.checkContainSpecialChar(pass), typeSet, password, errList, passList);
     this.checkOne("HORIZONTAL_KEY_SEQUENTIAL", "HAS_KEYBOARD_SEQUENTIAL", (pass) => this.checkLateralKeyboardSite(pass), typeSet, password, errList, passList);
-    this.checkOne("SLOPE_KEY_SEQUENTIAL", "HAS_KEYBOARD_SLANT", (pass) => this.checkKeyboardSlantSite(pass), typeSet, password, errList, passList);
+    this.checkOne("SLANT_KEY_SEQUENTIAL", "HAS_KEYBOARD_SLANT", (pass) => this.checkKeyboardSlantSite(pass), typeSet, password, errList, passList);
     this.checkOne("LOGIC_SEQUENTIAL", "HAS_SEQUENTIAL_CHAR", (pass) => this.checkSequentialChars(pass), typeSet, password, errList, passList);
     this.checkOne("SEQUENTIAL_CHAR_SAME", "HAS_SEQUENTIAL_SAME_CHAR", (pass) => this.checkSequentialSameChars(pass), typeSet, password, errList, passList);
 
@@ -231,12 +241,13 @@ class Mazagran {
    * @memberof CheckPWD
    */
   private checkKeyboardSlantSite(password: string): boolean {
-    if (!this.config.CHECK_SLOPE_KEY_SEQUENTIAL) {
+    if (!this.config.CHECK_SLANT_KEY_SEQUENTIAL) {
       return true;
     }
     const maxLength = this.config.LIMIT_SLOPE_NUM_KEY;
     const lower = password.toLowerCase();
-    const arrList = uniq(this.config.KEYBOARD_SLOPE_ARR.flatMap((str) => this.createSplitArr(str, maxLength)));
+    const strArr = [...this.config.KEYBOARD_SLOPE_ARR, ...this.config.KEYBOARD_SLOPE_ARR.map(this.stringReverse)];
+    const arrList = uniq(strArr.flatMap((str) => this.createSplitArr(str, maxLength)));
     return arrList.find((str: string) => lower.includes(str)) === undefined;
   }
 
