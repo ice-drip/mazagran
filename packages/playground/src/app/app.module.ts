@@ -8,10 +8,10 @@ import { MatInputModule } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-
+import { MatButtonModule } from "@angular/material/button";
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, FlexLayoutModule, MatInputModule, FormsModule, MatIconModule, MatProgressBarModule],
+  imports: [BrowserModule, BrowserAnimationsModule, FlexLayoutModule, MatInputModule, FormsModule, MatIconModule, MatProgressBarModule, MatButtonModule],
   providers: [],
   bootstrap: [AppComponent]
 })

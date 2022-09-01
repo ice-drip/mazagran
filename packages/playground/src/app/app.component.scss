@@ -1,5 +1,11 @@
 :host::ng-deep {
   .score-less-40 {
+    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      color: #f44336 !important;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+      color: #f44336 !important;
+    }
     .mat-progress-bar.mat-warn {
       .mat-progress-bar-buffer {
         background-color: #ffcdd2 !important;
@@ -10,6 +16,12 @@
     }
   }
   .score-less-80 {
+    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      color: #673ab7 !important;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+      color: #673ab7 !important;
+    }
     .mat-progress-bar.mat-warn {
       .mat-progress-bar-buffer {
         background-color: #d1c4e9 !important;
@@ -20,6 +32,12 @@
     }
   }
   .score-more-80 {
+    .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+      color: #4caf50 !important;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+      color: #4caf50 !important;
+    }
     .mat-progress-bar.mat-warn {
       .mat-progress-bar-buffer {
         background-color: #a5d6a7 !important;
