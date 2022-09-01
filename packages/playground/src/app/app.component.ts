@@ -6,7 +6,8 @@ import { Mazagran, ERR_DICT_CN, PASS_DICT_CN } from "@kaffee/mazagran/dist/esm";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  password = "";
+  public password = "";
+  public advanced = false;
   public errList: ErrItem[] = [];
   public get process() {
     if (this.errList.length > 0) {
