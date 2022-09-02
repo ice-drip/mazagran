@@ -17,7 +17,7 @@ export class AppComponent {
     }
     return 0;
   }
-  private mazagran = new Mazagran();
+  private mazagran = new Mazagran(this.getQuickRule());
   public commonConfig = new MazagranConfig();
 
   constructor(private clipboard: Clipboard, private snackBar: MatSnackBar) {
@@ -47,7 +47,6 @@ export class AppComponent {
   public handleCopyAdvanced() {
     const commonConfig: Record<string, string | boolean | number | string[]> = { ...this.commonConfig };
     const ignore = new Set(["KEYBOARD_HORIZONTAL_ARR", "KEYBOARD_LOGIC_ARR", "KEYBOARD_SLOPE_ARR"]);
-    console.log(commonConfig);
     const config = Object.keys(commonConfig)
       .filter((key) => !ignore.has(key))
       .map((key: string) => {
@@ -61,23 +60,76 @@ export class AppComponent {
       })
       .filter(Boolean)
       .join("\n");
+    const quickRule = `[${this.getQuickRule()
+      .map((rule) => `"${rule}"`)
+      .join(",")}]`;
     const textConfig = `import { Mazagran, MazagranConfig } from "@kaffee/mazagran";
 const config = new MazagranConfig();
 ${config}
-const mazagran = new Mazagran(undefined,config);
+const mazagran = new Mazagran(${quickRule},config);
 `;
     this.clipboard.copy(textConfig);
     this.snackBar.open("复制配置成功");
   }
 
   public handleChangeAdvanced() {
+    console.log(this.advanced);
     if (this.advanced === false) {
-      this.mazagran = new Mazagran();
+      this.mazagran = new Mazagran(this.getQuickRule());
       this.handlePasswordChange();
     } else {
-      this.mazagran = new Mazagran(undefined, this.commonConfig);
+      this.mazagran = new Mazagran(this.getQuickRule(), this.commonConfig);
       this.handlePasswordChange();
     }
+  }
+
+  private getQuickRule(): any[] {
+    const rule: string[] = [];
+    if (this.advanced === false) {
+      return [
+        "PASSWORD_LENGTH",
+        "CONTAIN_DIGIT",
+        "CASE",
+        "LOWER_CASE",
+        "UPPER_CASE",
+        "SPECIAL_CHAR",
+        "HORIZONTAL_KEY_SEQUENTIAL",
+        "SLANT_KEY_SEQUENTIAL",
+        "LOGIC_SEQUENTIAL",
+        "SEQUENTIAL_CHAR_SAME"
+      ];
+    }
+    if (this.commonConfig.CHECK_PASSWORD_LENGTH) {
+      rule.push("PASSWORD_LENGTH");
+    }
+    if (this.commonConfig.CHECK_CONTAIN_DIGIT) {
+      rule.push("CONTAIN_DIGIT");
+    }
+    if (this.commonConfig.CHECK_CASE) {
+      rule.push("CASE");
+    }
+    if (this.commonConfig.CHECK_LOWER_CASE) {
+      rule.push("LOWER_CASE");
+    }
+    if (this.commonConfig.CHECK_UPPER_CASE) {
+      rule.push("UPPER_CASE");
+    }
+    if (this.commonConfig.CHECK_CONTAIN_SPECIAL_CHAR) {
+      rule.push("SPECIAL_CHAR");
+    }
+    if (this.commonConfig.CHECK_HORIZONTAL_KEY_SEQUENTIAL) {
+      rule.push("HORIZONTAL_KEY_SEQUENTIAL");
+    }
+    if (this.commonConfig.CHECK_SLANT_KEY_SEQUENTIAL) {
+      rule.push("SLANT_KEY_SEQUENTIAL");
+    }
+    if (this.commonConfig.CHECK_LOGIC_SEQUENTIAL) {
+      rule.push("LOGIC_SEQUENTIAL");
+    }
+    if (this.commonConfig.CHECK_SEQUENTIAL_CHAR_SAME) {
+      rule.push("SEQUENTIAL_CHAR_SAME");
+    }
+    return rule;
   }
 }
 
