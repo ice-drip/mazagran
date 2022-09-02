@@ -1,11 +1,111 @@
 <div class="h-screen w-screen" style="background: #3f51b5" fxLayout="row" fxLayoutAlign="center center">
-  <div class="w-96 bg-white p-4" style="min-height: 375px">
+  <div
+    class="w-96 bg-white p-4"
+    [ngClass]="{ 'score-less-40': process <= 40, 'score-less-80': process < 80 && process > 40, 'score-more-80': process >= 80 }"
+    style="min-height: 375px"
+  >
+    <div class="mb-2">
+      <mat-slide-toggle color="primary" [(ngModel)]="advanced" (ngModelChange)="handleChangeAdvanced()">
+        <span class="text-sm">高级选项</span>
+      </mat-slide-toggle>
+
+      <div *ngIf="advanced" fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="w-full">
+          <button mat-raised-button (click)="handleCopyAdvanced()" class="text-xs">复制高级选项</button>
+        </div>
+        <mat-slide-toggle matTooltip="口令长度检测(PASSWORD_LENGTH)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_PASSWORD_LENGTH" (ngModelChange)="handleChangeAdvanced()">
+          <span class="text-sm">口令长度检测</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_PASSWORD_LENGTH">
+          <mat-form-field class="w-1/2 pr-1 text-sm">
+            <input matInput placeholder="口令最小长度" type="number" [(ngModel)]="commonConfig.MIN_LENGTH" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+          <mat-form-field class="w-1/2 pl-1 text-sm">
+            <input matInput placeholder="口令最大长度" type="number" [(ngModel)]="commonConfig.MAX_LENGTH" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+        <mat-slide-toggle matTooltip="是否包含数字(CONTAIN_DIGIT)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CONTAIN_DIGIT" (ngModelChange)="handleChangeAdvanced()">
+          <span class="text-sm">是否包含数字</span>
+        </mat-slide-toggle>
+        <mat-slide-toggle matTooltip="是否包含字母(CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CASE" (ngModelChange)="handleChangeAdvanced()"
+          ><span class="text-sm">是否包含字母</span></mat-slide-toggle
+        >
+        <ng-container *ngIf="commonConfig.CHECK_CASE">
+          <mat-slide-toggle matTooltip="是否包含小写字母(LOWER_CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_LOWER_CASE" (ngModelChange)="handleChangeAdvanced()">
+            <span class="text-sm">是否包含小写字母</span>
+          </mat-slide-toggle>
+          <mat-slide-toggle matTooltip="是否包含大写字母(UPPER_CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_UPPER_CASE" (ngModelChange)="handleChangeAdvanced()">
+            <span class="text-sm">是否包含大写字母</span>
+          </mat-slide-toggle>
+        </ng-container>
+        <mat-slide-toggle matTooltip="是否包含特殊字符(SPECIAL_CHAR)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CONTAIN_SPECIAL_CHAR" (ngModelChange)="handleChangeAdvanced()">
+          <span class="text-sm">是否包含特殊字符</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_CONTAIN_SPECIAL_CHAR">
+          <mat-form-field class="w-full">
+            <input matInput placeholder="特殊字符集" [(ngModel)]="commonConfig.SPECIAL_CHAR" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+        <mat-slide-toggle
+          matTooltip="是否包含键盘横向连续输入字符(HORIZONTAL_KEY_SEQUENTIAL)"
+          class="w-full"
+          [(ngModel)]="commonConfig.CHECK_HORIZONTAL_KEY_SEQUENTIAL"
+          (ngModelChange)="handleChangeAdvanced()"
+        >
+          <span class="text-sm">是否包含键盘横向连续输入字符</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_HORIZONTAL_KEY_SEQUENTIAL">
+          <mat-form-field>
+            <input matInput placeholder="键盘横向连续字符数量" type="number" [(ngModel)]="commonConfig.LIMIT_HORIZONTAL_NUM_KEY" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+        <mat-slide-toggle
+          matTooltip="是否包含键盘斜向连续输入字符(SLANT_KEY_SEQUENTIAL)"
+          class="w-full"
+          [(ngModel)]="commonConfig.CHECK_SLANT_KEY_SEQUENTIAL"
+          (ngModelChange)="handleChangeAdvanced()"
+        >
+          <span class="text-sm">是否包含键盘斜向连续输入字符</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_SLANT_KEY_SEQUENTIAL">
+          <mat-form-field>
+            <input matInput placeholder="键盘斜向连续字符数量" type="number" [(ngModel)]="commonConfig.LIMIT_SLOPE_NUM_KEY" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+        <mat-slide-toggle
+          matTooltip="是否包含逻辑连续字符(LOGIC_SEQUENTIAL)"
+          class="w-full"
+          [(ngModel)]="commonConfig.CHECK_LOGIC_SEQUENTIAL"
+          (ngModelChange)="handleChangeAdvanced()"
+        >
+          <span class="text-sm">是否包含逻辑连续字符</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_LOGIC_SEQUENTIAL">
+          <mat-form-field>
+            <input matInput placeholder="逻辑连续字符数量" type="number" [(ngModel)]="commonConfig.LIMIT_LOGIC_NUM_CHAR" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+        <mat-slide-toggle
+          matTooltip="是否包含连续相同字符(SEQUENTIAL_CHAR_SAME)"
+          class="w-full"
+          [(ngModel)]="commonConfig.CHECK_SEQUENTIAL_CHAR_SAME"
+          (ngModelChange)="handleChangeAdvanced()"
+        >
+          <span class="text-sm">是否包含连续相同字符</span>
+        </mat-slide-toggle>
+        <div class="w-full" *ngIf="commonConfig.CHECK_SEQUENTIAL_CHAR_SAME">
+          <mat-form-field>
+            <input matInput placeholder="连续相同字符数量" type="number" [(ngModel)]="commonConfig.LIMIT_NUM_SAME_CHAR" (ngModelChange)="handleChangeAdvanced()" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>password</mat-label>
       <input matInput placeholder="password" [(ngModel)]="password" (ngModelChange)="handlePasswordChange()" />
     </mat-form-field>
     <div>
-      <mat-progress-bar mode="determinate" [value]="process"></mat-progress-bar>
+      <mat-progress-bar mode="determinate" color="warn" [value]="process"></mat-progress-bar>
       <div *ngFor="let item of errList" fxLayout="row" fxLayoutAlign="start center" class="my-2">
         <mat-icon class="text-red-500" *ngIf="item.type === 'error'">error_outline</mat-icon>
         <mat-icon class="text-green-300" *ngIf="item.type === 'pass'">done_outline</mat-icon>

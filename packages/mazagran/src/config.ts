@@ -79,7 +79,7 @@ export class MazagranConfig {
   /**
    * 键盘横向方向规则
    */
-  public KEYBOARD_HORIZONTAL_ARR: string[] = ["`1234567890-=", "~!@#$%^&*()_+", "qwertyuiop[]\\", "op{}|", "asdfghjkl;'", "kl;'", "nM<>?", "zxcvbnm,./"];
+  public KEYBOARD_HORIZONTAL_ARR: string[] = ["`1234567890-=", "~!@#$%^&*()_+", "qwertyuiop[]\\", "qwertyuiop{}|", "asdfghjkl;'", "asdfghjkl;'", "zxcvbnM<>?", "zxcvbnm,./"];
   /**
    * 键盘斜线方向规则
    */
