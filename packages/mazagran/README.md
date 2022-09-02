@@ -45,6 +45,20 @@ Install with pnpm
   mazagran.checkAll("password") // return err dict
 ```
 
+### Config
+
+|  check type   | description  |
+|  ----  | ----  |
+| PASSWORD_LENGTH | check password length |
+| CONTAIN_DIGIT | check password contains numbers |
+| CASE | check password contains case |
+| LOWER_CASE | check password contains lower case |
+| UPPER_CASE | check password contains upper case |
+| SPECIAL_CHAR | check password contains special char |
+| HORIZONTAL_KEY_SEQUENTIAL | check password contains horizontal keyboard key |
+| SLANT_KEY_SEQUENTIAL | check password contains slant keyboard key |
+| LOGIC_SEQUENTIAL | check password contains logic char |
+| SEQUENTIAL_CHAR_SAME | check password contains same char |
 ## License
 
 [GPL](https://choosealicense.com/licenses/gpl-3.0/)
