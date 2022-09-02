@@ -27,9 +27,9 @@
         <mat-slide-toggle matTooltip="是否包含数字(CONTAIN_DIGIT)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CONTAIN_DIGIT" (ngModelChange)="handleChangeAdvanced()">
           <span class="text-sm">是否包含数字</span>
         </mat-slide-toggle>
-        <mat-slide-toggle matTooltip="是否包含字母(CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CASE" (ngModelChange)="handleChangeAdvanced()"
-          ><span class="text-sm">是否包含字母</span></mat-slide-toggle
-        >
+        <mat-slide-toggle matTooltip="是否包含字母(CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_CASE" (ngModelChange)="handleChangeAdvanced()">
+          <span class="text-sm">是否包含字母</span>
+        </mat-slide-toggle>
         <ng-container *ngIf="commonConfig.CHECK_CASE">
           <mat-slide-toggle matTooltip="是否包含小写字母(LOWER_CASE)" class="w-1/2" [(ngModel)]="commonConfig.CHECK_LOWER_CASE" (ngModelChange)="handleChangeAdvanced()">
             <span class="text-sm">是否包含小写字母</span>
