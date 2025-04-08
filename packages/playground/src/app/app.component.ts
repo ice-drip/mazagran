@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import { Mazagran, ERR_DICT_CN, PASS_DICT_CN, MazagranConfig } from "@kaffee/mazagran/dist/esm";
+import { Mazagran, ERR_DICT_CN, PASS_DICT_CN, MazagranConfig } from "@kaffee/mazagran";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { MatSnackBar } from "@angular/material/snack-bar";
 @Component({
-    selector: "app-root",
-    templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"],
-    standalone: false
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+  standalone: false
 })
 export class AppComponent {
   public password = "";
