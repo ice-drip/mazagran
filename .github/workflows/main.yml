@@ -35,15 +35,15 @@ jobs:
         run: pnpm install
       - name: Build Status
         run: pnpm build
+      - name: Publish Package
+        run: pnpm publish --filter @kaffee/mazagran --access public
+        env:
+          NPM_TOKEN: ${{secrets.npm_token}}
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
           path: packages/playground/dist/playground
           retention-days: 1
-      - name: Publish Package
-        run: pnpm run ipublish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
   publish-pages:
     runs-on: ubuntu-latest
     needs: 

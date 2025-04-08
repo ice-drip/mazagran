@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rollup -c",
     "prepublish": "pnpm build",
-    "ipublish": "pnpm publish --no-git-checks --registry https://registry.npmjs.org/ --access public"
+    "ipublish": "npm publish --access public"
   },
   "keywords": [
     "password"
