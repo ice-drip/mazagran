@@ -14,6 +14,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
     strategy:
       matrix:
         node-version: [20]
@@ -32,13 +35,32 @@ jobs:
         run: pnpm install
       - name: Build Status
         run: pnpm build
-      - name: Publish to CF Pages
+      - uses: actions/upload-artifact@master
+        with:
+          name: my-artifact
+          path: packages/playground/dist/playground
+          retention-days: 1
+      - name: Publish Package
+        run: pnpm run ipublish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+  publish-pages:
+    runs-on: ubuntu-latest
+    needs: 
+      - publish
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish CF Page
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact
+          path: packages/playground/dist/playground
+      # Run a build step here if your project requires
+      - name: Publish to CF Pages ohos
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: pages deploy packages/playground/dist/playground --project-name=mazagran --branch main
-      - name: Publish Package
-        run: pnpm run ipublish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
