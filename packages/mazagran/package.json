@@ -9,7 +9,7 @@
   "sideEffects": false,
   "repository": "ice-drip/mazagran",
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsup",
     "prepublish": "pnpm build",
     "ipublish": "npm publish --access public"
   },

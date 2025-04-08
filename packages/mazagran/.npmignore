@@ -3,3 +3,4 @@ src
 test
 rollup.config.js
 tsconfig.type.json
+tsup.config.ts
