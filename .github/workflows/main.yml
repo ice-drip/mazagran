@@ -56,7 +56,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: my-artifact
-          path: packages/playground/dist/playground
+          path: packages/playground/dist/playground/browser
       # Run a build step here if your project requires
       - name: Publish to CF Pages ohos
         uses: cloudflare/wrangler-action@v3
