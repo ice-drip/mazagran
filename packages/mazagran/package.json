@@ -5,9 +5,20 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/esm/index.js",
-  "browser": "dist/iife/index.js",
   "sideEffects": false,
   "repository": "ice-drip/mazagran",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/index.js"
+    },
+    "./iife": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/iife/index.js"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "prepublish": "pnpm build",
