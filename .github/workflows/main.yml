@@ -18,21 +18,27 @@ jobs:
       matrix:
         node-version: [16]
     steps:
-    - uses: actions/checkout@master
-    - uses: pnpm/action-setup@v2.2.2
-      with:
-        version: 7
-    - name: Use Node.js 16
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'pnpm'
-    - name: Install dependencies
-      run: pnpm install
-    - name: Build Status
-      run: pnpm build
-    - uses: cloudflare/wrangler-action@2.0.0
-      with:
-        apiToken: ${{ secrets.CF_API_TOKEN }}
-        accountId: ${{ secrets.CF_ACCOUNT_ID }}
-        command: pages publish packages/playground/dist/playground --project-name=mazagran --branch main
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build Status
+        run: pnpm build
+      - name: Publish to CF Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy packages/playground/dist/playground --project-name=mazagran --branch main
+      - name: Publish Package
+        run: pnpm run ipublish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
