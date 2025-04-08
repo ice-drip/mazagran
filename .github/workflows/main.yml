@@ -38,7 +38,7 @@ jobs:
       - name: Publish Package
         run: pnpm publish --filter @kaffee/mazagran --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NPM_TOKEN: ${{secrets.npm_token}}
       - uses: actions/upload-artifact@master
         with:
           name: my-artifact
