@@ -31,6 +31,12 @@
       "require": "./dist/utils/score.js",
       "import": "./dist/esm/utils/score.js",
       "default": "./dist/utils/score.js"
+    },
+    "./locales": {
+      "types": "./dist/locales/index.d.ts",
+      "require": "./dist/locales/index.js",
+      "import": "./dist/esm/locales/index.js",
+      "default": "./dist/locales/index.js"
     }
   },
   "scripts": {
