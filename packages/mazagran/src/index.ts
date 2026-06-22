@@ -323,3 +323,14 @@ class Mazagran {
 
 export { MazagranConfig, Mazagran };
 export * from "./constant";
+export { CheckType, ErrType } from "./types";
+export type {
+  MazagranConfigInterface,
+  CheckResult,
+  ValidationResult,
+  ValidationRule,
+  LocaleMessages,
+  ScoreConfig,
+  StrengthLevel,
+  ResolvedConfig
+} from "./types";
