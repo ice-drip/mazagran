@@ -34,7 +34,7 @@ cd test && pnpm test -- --watch
 
 - **`index.ts`** - `Mazagran` class with all validation logic
 - **`config.ts`** - `MazagranConfig` class with all configurable options (thresholds, character sets, keyboard patterns)
-- **`constant.ts`** - Chinese error/pass message dictionaries (`ERR_DICT_CN`, `PASS_DICT_CN`)
+- **`locales/`** - i18n message dictionaries (zh-CN, en-US)
 
 ### Validation Flow
 
@@ -68,5 +68,5 @@ tsup generates three formats:
 ## Code Style
 
 - Chinese comments in source code (documentation purpose)
-- Chinese error messages in `constant.ts`
+- Chinese error messages in `locales/zh-CN.ts`
 - Prettier configured: double quotes, no trailing commas, 180 print width
