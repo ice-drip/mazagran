@@ -13,6 +13,24 @@
       "require": "./dist/index.js",
       "import": "./dist/esm/index.js",
       "default": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "require": "./dist/types.js",
+      "import": "./dist/esm/types.js",
+      "default": "./dist/types.js"
+    },
+    "./utils/string": {
+      "types": "./dist/utils/string.d.ts",
+      "require": "./dist/utils/string.js",
+      "import": "./dist/esm/utils/string.js",
+      "default": "./dist/utils/string.js"
+    },
+    "./utils/score": {
+      "types": "./dist/utils/score.d.ts",
+      "require": "./dist/utils/score.js",
+      "import": "./dist/esm/utils/score.js",
+      "default": "./dist/utils/score.js"
     }
   },
   "scripts": {
