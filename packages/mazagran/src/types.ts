@@ -57,7 +57,7 @@ export interface ScoreConfig {
 /**
  * Mazagran 配置
  */
-export interface MazagranConfigInterface {
+export interface MazagranConfig {
   readonly checks?: readonly CheckType[];
   readonly minLength?: number;
   readonly maxLength?: number;

@@ -325,7 +325,7 @@ export { MazagranConfig, Mazagran };
 export * from "./constant";
 export { CheckType, ErrType } from "./types";
 export type {
-  MazagranConfigInterface,
+  MazagranConfig as MazagranConfigOptions,
   CheckResult,
   ValidationResult,
   ValidationRule,
