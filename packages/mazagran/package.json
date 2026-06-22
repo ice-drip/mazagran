@@ -37,6 +37,12 @@
       "require": "./dist/locales/index.js",
       "import": "./dist/esm/locales/index.js",
       "default": "./dist/locales/index.js"
+    },
+    "./rules/*": {
+      "types": "./dist/rules/*.d.ts",
+      "require": "./dist/rules/*.js",
+      "import": "./dist/esm/rules/*.js",
+      "default": "./dist/rules/*.js"
     }
   },
   "scripts": {
