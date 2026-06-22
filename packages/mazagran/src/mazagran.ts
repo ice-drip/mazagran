@@ -60,6 +60,7 @@ export class Mazagran {
   private customRules: Map<string, ValidationRule> = new Map();
   private allRules: ValidationRule[];
   private scoreConfig?: { enabled: boolean; maxScore?: number; weights?: Partial<Record<string, number>> };
+  private customMessages?: Partial<Record<string, import('./types').LocaleMessages>>;
 
   constructor(config?: MazagranConfig) {
     this.config = { ...DEFAULT_CONFIG, ...this.normalizeConfig(config) };
@@ -68,6 +69,7 @@ export class Mazagran {
     );
     this.allRules = [...builtinRules];
     this.scoreConfig = config?.score;
+    this.customMessages = config?.customMessages;
   }
 
   private normalizeConfig(config?: MazagranConfig): Partial<ResolvedConfig> {
@@ -76,7 +78,8 @@ export class Mazagran {
     return {
       ...(config.minLength !== undefined && { minLength: config.minLength }),
       ...(config.maxLength !== undefined && { maxLength: config.maxLength }),
-      ...(config.specialChars !== undefined && { specialChars: config.specialChars })
+      ...(config.specialChars !== undefined && { specialChars: config.specialChars }),
+      ...(config.locale !== undefined && { locale: config.locale })
     };
   }
 
@@ -86,6 +89,7 @@ export class Mazagran {
   registerRule(rule: ValidationRule): this {
     this.customRules.set(rule.type, rule);
     this.allRules = [...builtinRules, ...this.customRules.values()];
+    this.enabledChecks.add(rule.type);
     return this;
   }
 
@@ -103,6 +107,7 @@ export class Mazagran {
   removeRule(type: string): this {
     this.customRules.delete(type);
     this.allRules = [...builtinRules, ...this.customRules.values()];
+    this.enabledChecks.delete(type);
     return this;
   }
 
@@ -112,17 +117,19 @@ export class Mazagran {
   checkAll(password: string): CheckResult {
     const errors: ErrType[] = [];
     const passes: ErrType[] = [];
+    const passedTypes: string[] = [];
     const messages: Record<string, string> = {};
 
-    const localeMessages = getMessages(this.config.locale);
+    const localeMessages = getMessages(this.config.locale, this.customMessages);
 
-    for (const rule of this.allRules) {
-      if (!this.enabledChecks.has(rule.type)) continue;
+    const enabledRules = this.allRules.filter(r => this.enabledChecks.has(r.type));
 
+    for (const rule of enabledRules) {
       const passed = rule.check(password, this.config);
 
       if (passed) {
         passes.push(rule.errorKey as ErrType);
+        passedTypes.push(rule.type);
       } else {
         errors.push(rule.errorKey as ErrType);
       }
@@ -137,8 +144,8 @@ export class Mazagran {
 
     if (this.scoreConfig?.enabled) {
       const score = calculateScore(
-        passes.map(p => p as string),
-        this.allRules,
+        passedTypes,
+        enabledRules,
         this.scoreConfig
       );
       return { ...result, score, level: getStrengthLevel(score) };
