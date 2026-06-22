@@ -6,6 +6,5 @@ export default defineConfig({
   clean: true,
   splitting: false,
   dts: true,
-  format: ["esm", "cjs", "iife"],
-  legacyOutput: true
+  format: ["esm", "cjs"]
 });

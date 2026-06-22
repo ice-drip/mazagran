@@ -1,6 +1,6 @@
 {
   "name": "@kaffee/mazagran",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Enhance password strength",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,16 +13,14 @@
       "require": "./dist/index.js",
       "import": "./dist/esm/index.js",
       "default": "./dist/index.js"
-    },
-    "./iife": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/iife/index.js"
     }
   },
   "scripts": {
     "build": "tsup",
     "prepublish": "pnpm build",
-    "ipublish": "npm publish --access public"
+    "ipublish": "npm publish --access public",
+    "test": "rstest",
+    "test:watch": "rstest --watch"
   },
   "keywords": [
     "password"
@@ -30,6 +28,7 @@
   "author": "Rikka",
   "license": "GPLV3",
   "devDependencies": {
+    "@rstest/core": "^0.1.0",
     "@types/node": "22.14.0",
     "tslib": "^2.8.1",
     "tsup": "^8.4.0",
