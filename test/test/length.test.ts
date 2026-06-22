@@ -1,17 +1,12 @@
-import { Mazagran, MazagranConfig } from "@kaffee/mazagran";
+import { Mazagran } from "@kaffee/mazagran";
 
 test("[error]password: 1234 (min_length:10)", () => {
-  const config = new MazagranConfig();
-  config.MIN_LENGTH = 10;
-  const mazagran = new Mazagran(["PASSWORD_LENGTH"], config);
+  const mazagran = new Mazagran({ checks: ["PASSWORD_LENGTH"], minLength: 10 });
   const result = mazagran.checkAll("1234");
-  expect(result.error.includes("PASSWORD_LENGTH_ERR")).toBe(true);
-  expect(result.pass.includes("PASSWORD_LENGTH_ERR")).toBe(false);
+  expect(result.errors.includes("PASSWORD_LENGTH_ERR")).toBe(true);
+  expect(result.passes.includes("PASSWORD_LENGTH_ERR")).toBe(false);
 });
 test("[error]password: 123456789 (max_length:6)", () => {
-  const config = new MazagranConfig();
-  config.MAX_LENGTH = 6;
-  config.MIN_LENGTH = 2;
-  const mazagran = new Mazagran(["PASSWORD_LENGTH"], config);
-  expect(mazagran.checkAll("123456789").error.includes("PASSWORD_LENGTH_ERR")).toBe(true);
+  const mazagran = new Mazagran({ checks: ["PASSWORD_LENGTH"], maxLength: 6, minLength: 2 });
+  expect(mazagran.checkAll("123456789").errors.includes("PASSWORD_LENGTH_ERR")).toBe(true);
 });

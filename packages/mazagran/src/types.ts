@@ -1,7 +1,7 @@
 /**
  * 密码检查类型枚举
  */
-export const enum CheckType {
+export enum CheckType {
   PasswordLength = 'PASSWORD_LENGTH',
   ContainDigit = 'CONTAIN_DIGIT',
   Case = 'CASE',
@@ -17,7 +17,7 @@ export const enum CheckType {
 /**
  * 错误类型枚举
  */
-export const enum ErrType {
+export enum ErrType {
   PasswordLengthErr = 'PASSWORD_LENGTH_ERR',
   NotContainDigit = 'NOT_CONTAIN_DIGIT',
   NotContainCase = 'NOT_CONTAIN_CASE',
@@ -58,7 +58,7 @@ export interface ScoreConfig {
  * Mazagran 配置
  */
 export interface MazagranConfig {
-  readonly checks?: readonly CheckType[];
+  readonly checks?: readonly (CheckType | string)[];
   readonly minLength?: number;
   readonly maxLength?: number;
   readonly specialChars?: string;
@@ -98,8 +98,8 @@ export interface ValidationRule {
  * 检查结果
  */
 export interface CheckResult {
-  readonly errors: readonly ErrType[];
-  readonly passes: readonly ErrType[];
+  readonly errors: readonly (ErrType | string)[];
+  readonly passes: readonly (ErrType | string)[];
   readonly score?: number;
   readonly level?: StrengthLevel;
   readonly messages?: Record<string, string>;
