@@ -9,7 +9,7 @@ import { logicSequentialRule, sameCharRule } from './sequential.rule';
 /**
  * 内置规则列表
  */
-export const builtinRules: ValidationRule[] = [
+export const builtinRules: readonly ValidationRule[] = Object.freeze([
   lengthRule,
   digitRule,
   caseRule,
@@ -20,7 +20,7 @@ export const builtinRules: ValidationRule[] = [
   slantKeyboardRule,
   logicSequentialRule,
   sameCharRule
-];
+]);
 
 /**
  * 按类型查找规则

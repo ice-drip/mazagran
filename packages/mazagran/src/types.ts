@@ -1,5 +1,9 @@
 /**
  * 密码检查类型枚举
+ *
+ * Uses regular `enum` instead of `const enum` for compatibility with
+ * tsup/esbuild, which does not support const enum inlining. This ensures
+ * the enum values are accessible at runtime when consumed as a library.
  */
 export enum CheckType {
   PasswordLength = 'PASSWORD_LENGTH',
@@ -63,6 +67,14 @@ export interface MazagranConfig {
   readonly maxLength?: number;
   readonly specialChars?: string;
   readonly locale?: 'zh' | 'en' | string;
+  /** Maximum consecutive keyboard horizontal sequence length before failing */
+  readonly limitHorizontalNumKey?: number;
+  /** Maximum consecutive keyboard slant sequence length before failing */
+  readonly limitSlopeNumKey?: number;
+  /** Maximum consecutive logical sequence length before failing */
+  readonly limitLogicNumChar?: number;
+  /** Maximum consecutive identical characters before failing */
+  readonly limitNumSameChar?: number;
   readonly customMessages?: Partial<Record<string, LocaleMessages>>;
   readonly score?: ScoreConfig;
 }

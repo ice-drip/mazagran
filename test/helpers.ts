@@ -2,7 +2,7 @@ import type { ResolvedConfig } from "@kaffee/mazagran";
 
 /**
  * 默认测试配置
- * 与 packages/mazagran/src/config.ts 中的默认值保持一致
+ * 与 packages/mazagran/src/mazagran.ts 中的默认值保持一致
  */
 export const DEFAULT_CONFIG: ResolvedConfig = {
   minLength: 8,

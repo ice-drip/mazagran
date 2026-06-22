@@ -79,7 +79,11 @@ export class Mazagran {
       ...(config.minLength !== undefined && { minLength: config.minLength }),
       ...(config.maxLength !== undefined && { maxLength: config.maxLength }),
       ...(config.specialChars !== undefined && { specialChars: config.specialChars }),
-      ...(config.locale !== undefined && { locale: config.locale })
+      ...(config.locale !== undefined && { locale: config.locale }),
+      ...(config.limitHorizontalNumKey !== undefined && { limitHorizontalNumKey: config.limitHorizontalNumKey }),
+      ...(config.limitSlopeNumKey !== undefined && { limitSlopeNumKey: config.limitSlopeNumKey }),
+      ...(config.limitLogicNumChar !== undefined && { limitLogicNumChar: config.limitLogicNumChar }),
+      ...(config.limitNumSameChar !== undefined && { limitNumSameChar: config.limitNumSameChar })
     };
   }
 
