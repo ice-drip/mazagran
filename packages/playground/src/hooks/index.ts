@@ -1,0 +1,1 @@
+export { useMazagran } from "./useMazagran";
